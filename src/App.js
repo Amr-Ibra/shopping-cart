@@ -1,10 +1,14 @@
 import "./App.css";
-import CartHeader from "./Components/CartHeader";
+import CartHeader from "./components/CartHeader";
+import CartFooter from "./components/CartFooter";
+import CartItems from "./components/CartItems";
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <CartHeader />
+      <CartItems />
+      <CartFooter />
     </div>
   );
 }
