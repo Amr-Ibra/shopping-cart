@@ -1,11 +1,10 @@
 import React from "react";
-import currentYear from "./currentYear";
 
-const CartFooter = () => {
+const CartFooter = ({ copyright }) => {
   return (
     <nav className="navbar navbar-dark bg-dark">
       <a className="navbar-brand" href="#">
-        &copy; {currentYear}
+        &copy; {copyright}
       </a>
     </nav>
   );
