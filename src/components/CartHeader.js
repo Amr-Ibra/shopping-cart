@@ -1,13 +1,9 @@
 import React from "react";
 
-const CartHeader = () => {
-  return (
-    <nav className="navbar navbar-dark bg-primary">
-      <a className="navbar-brand" href="#">
-        Shopping Cart
-      </a>
-    </nav>
-  );
-};
+const CartHeader = () => (
+  <header className="navbar navbar-dark bg-primary">
+    <div className="navbar-brand">Shopping Cart</div>
+  </header>
+);
 
 export default CartHeader;
