@@ -1,7 +1,7 @@
 import React from "react";
 import CartItem from "./CartItem";
 
-const CartItems = ({ cartItemsList }) => (
+const CartItems = ({ cartItemsList, totalPrice }) => (
   <div className="container">
     <h1>Cart Items</h1>
     <div className="list-group">
@@ -21,6 +21,7 @@ const CartItems = ({ cartItemsList }) => (
         />
       ))}
     </div>
+    <div>Total Price: ${totalPrice / 100}</div>
   </div>
 );
 
