@@ -9,10 +9,11 @@ import products from "./components/products";
 import { Component } from "react";
 
 class App extends Component {
-  state = {
-    items: cartItemsList,
-    totalPrice: this.calculateTotalPrice(cartItemsList),
-  };
+  state = { items: cartItemsList, totalPrice: 0 };
+
+  componentDidMount() {
+    this.calculateTotalPrice(cartItemsList);
+  }
 
   onFormSubmission = (e) => {
     e.preventDefault();
@@ -46,7 +47,6 @@ class App extends Component {
     );
     const totalPrice = prices.reduce((total, current) => total + current);
     this.setState({ totalPrice: totalPrice });
-    return totalPrice;
   }
 
   render = () => (
