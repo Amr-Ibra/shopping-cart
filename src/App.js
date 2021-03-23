@@ -28,13 +28,13 @@ class App extends Component {
 
     const id = parseInt(e.target.elements.product.value);
     const quantity = parseInt(e.target.elements.quantity.value);
-    const productObj = this.state.products.find((product) => product.id === id);
+    const product = this.state.products.find((product) => product.id === id);
 
-    this.createNewItem(productObj, quantity);
+    this.createNewItem(product, quantity);
   };
 
-  createNewItem(productObj, quantity) {
-    const item = { product: productObj, quantity };
+  createNewItem(product, quantity) {
+    const item = { product, quantity };
     this.createNewItemsList(item);
   }
 
