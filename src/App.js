@@ -2,17 +2,32 @@ import "./App.css";
 import CartHeader from "./components/CartHeader";
 import CartFooter from "./components/CartFooter";
 import CartItems from "./components/CartItems";
-import cartItemsList from "./components/cartItemsList";
-import currentYear from "./components/currentYear";
 import AddItem from "./components/AddItem";
-import products from "./components/products";
 import { Component } from "react";
 
-class App extends Component {
-  state = { items: cartItemsList, totalPrice: 0 };
+const currentYear = new Date().getFullYear();
 
-  componentDidMount() {
-    this.calculateTotalPrice(cartItemsList);
+class App extends Component {
+  state = { items: [], products: [], totalPrice: 0 };
+
+  async componentDidMount() {
+    const itemsResponse = await fetch("http://localhost:8082/api/items");
+    const productsResponse = await fetch("http://localhost:8082/api/products");
+
+    const items = await itemsResponse.json();
+    const products = await productsResponse.json();
+
+    /* Fill items with products at the corresponding product_id */
+    items.forEach((item) => {
+      products.forEach((product) => {
+        if (item.product_id === product.id) {
+          item.product_id = product;
+        }
+      });
+    });
+
+    this.setState({ items: items, products: products });
+    this.calculateTotalPrice(items);
   }
 
   onFormSubmission = (e) => {
@@ -20,7 +35,7 @@ class App extends Component {
 
     const id = parseInt(e.target.elements.product.value);
     const quantity = parseInt(e.target.elements.quantity.value);
-    const product = products.find((product) => product.id === id);
+    const product = this.state.products.find((product) => product.id === id);
 
     this.createNewItem(product, quantity);
   };
@@ -43,7 +58,7 @@ class App extends Component {
 
   calculateTotalPrice(items) {
     const prices = items.map(
-      (item) => item.product.priceInCents * item.quantity
+      (item) => item.product_id.priceInCents * item.quantity
     );
     const totalPrice = prices.reduce((total, current) => total + current);
     this.setState({ totalPrice: totalPrice });
@@ -56,7 +71,10 @@ class App extends Component {
         cartItemsList={this.state.items}
         totalPrice={this.state.totalPrice}
       />
-      <AddItem products={products} onFormSubmission={this.onFormSubmission} />
+      <AddItem
+        products={this.state.products}
+        onFormSubmission={this.onFormSubmission}
+      />
       <CartFooter copyright={currentYear} />
     </div>
   );

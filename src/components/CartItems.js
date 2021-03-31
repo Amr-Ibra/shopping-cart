@@ -1,4 +1,3 @@
-import React from "react";
 import CartItem from "./CartItem";
 
 const CartItems = ({ cartItemsList, totalPrice }) => (
@@ -15,8 +14,8 @@ const CartItems = ({ cartItemsList, totalPrice }) => (
       {cartItemsList.map((item) => (
         <CartItem
           key={item.id}
-          name={item.product.name}
-          price={item.product.priceInCents}
+          name={item.product_id.name}
+          price={item.product_id.priceInCents}
           quantity={item.quantity}
         />
       ))}
