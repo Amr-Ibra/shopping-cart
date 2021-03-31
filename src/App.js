@@ -24,6 +24,9 @@ class App extends Component {
           item.product_id = product;
         }
       });
+      /* Rename the item's key 'product_id' into 'product' */
+      item["product"] = item["product_id"];
+      delete item["product_id"];
     });
 
     this.setState({ items: items, products: products });
@@ -58,7 +61,7 @@ class App extends Component {
 
   calculateTotalPrice(items) {
     const prices = items.map(
-      (item) => item.product_id.priceInCents * item.quantity
+      (item) => item.product.priceInCents * item.quantity
     );
     const totalPrice = prices.reduce((total, current) => total + current);
     this.setState({ totalPrice: totalPrice });

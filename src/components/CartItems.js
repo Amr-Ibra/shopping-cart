@@ -14,8 +14,8 @@ const CartItems = ({ cartItemsList, totalPrice }) => (
       {cartItemsList.map((item) => (
         <CartItem
           key={item.id}
-          name={item.product_id.name}
-          price={item.product_id.priceInCents}
+          name={item.product.name}
+          price={item.product.priceInCents}
           quantity={item.quantity}
         />
       ))}
