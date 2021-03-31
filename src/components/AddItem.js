@@ -1,4 +1,3 @@
-import React from "react";
 import ProductOption from "./ProductOption";
 
 const AddItem = ({ products, onFormSubmission }) => (

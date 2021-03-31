@@ -1,5 +1,3 @@
-import React from "react";
-
 const CartHeader = () => (
   <header className="navbar navbar-dark bg-primary">
     <div className="navbar-brand">Shopping Cart</div>

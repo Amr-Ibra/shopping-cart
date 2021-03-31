@@ -1,5 +1,3 @@
-import React from "react";
-
 const CartItem = ({ name, price, quantity }) => (
   <div className="list-group-item">
     <div className="row">
