@@ -1,6 +1,6 @@
-const CartFooter = ({ copyright }) => (
+const CartFooter = ({ year }) => (
   <footer className="navbar navbar-dark bg-dark">
-    <div className="navbar-brand">&copy; {copyright}</div>
+    <div className="navbar-brand">&copy; {year}</div>
   </footer>
 );
 

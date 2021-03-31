@@ -17,8 +17,9 @@ class App extends Component {
     const items = await itemsResponse.json();
     const products = await productsResponse.json();
 
-    /* The items array has only the product ids and not the product
-    objects, so fill the items with the corresponding products */
+    /* The items array, which comes from the server, contains the
+    product ids instead of the product objects, so fill the items
+    with the corresponding products */
     items.forEach((item) => {
       this.addProductToItem(products, item);
     });
@@ -42,13 +43,13 @@ class App extends Component {
 
     const productId = parseInt(e.target.elements.product.value);
     const quantity = parseInt(e.target.elements.quantity.value);
-    const id = this.state.items.length + 1;
+    const itemId = this.state.items.length + 1;
 
-    this.updateItemsList(productId, quantity, id);
+    this.updateItemsList(productId, quantity, itemId);
   };
 
-  async updateItemsList(productId, quantity, id) {
-    const item = { product_id: productId, quantity: quantity, id: id };
+  async updateItemsList(productId, quantity, itemId) {
+    const item = { product_id: productId, quantity: quantity, id: itemId };
 
     const itemResponse = await fetch("http://localhost:8082/api/items", {
       method: "POST",
@@ -87,7 +88,7 @@ class App extends Component {
         products={this.state.products}
         onFormSubmission={this.onFormSubmission}
       />
-      <CartFooter copyright={currentYear} />
+      <CartFooter year={currentYear} />
     </div>
   );
 }
