@@ -17,45 +17,54 @@ class App extends Component {
     const items = await itemsResponse.json();
     const products = await productsResponse.json();
 
-    /* Fill items with products at the corresponding product_id */
+    /* The items array has only the product ids and not the product
+    objects, so fill the items with the corresponding products */
     items.forEach((item) => {
-      products.forEach((product) => {
-        if (item.product_id === product.id) {
-          item.product_id = product;
-        }
-      });
-      /* Rename the item's key 'product_id' into 'product' */
-      item["product"] = item["product_id"];
-      delete item["product_id"];
+      this.addProductToItem(products, item);
     });
 
     this.setState({ items: items, products: products });
     this.calculateTotalPrice(items);
   }
 
+  addProductToItem(products, item) {
+    const product = products.find((product) => product.id === item.product_id);
+
+    item.product_id = product;
+
+    /* Rename the item's key "product_id" into "product" */
+    item["product"] = item["product_id"];
+    delete item["product_id"];
+  }
+
   onFormSubmission = (e) => {
     e.preventDefault();
 
-    const id = parseInt(e.target.elements.product.value);
+    const productId = parseInt(e.target.elements.product.value);
     const quantity = parseInt(e.target.elements.quantity.value);
-    const product = this.state.products.find((product) => product.id === id);
+    const id = this.state.items.length + 1;
 
-    this.createNewItem(product, quantity);
+    this.updateItemsList(productId, quantity, id);
   };
 
-  createNewItem(product, quantity) {
-    const item = { product, quantity };
-    this.createNewItemsList(item);
-  }
+  async updateItemsList(productId, quantity, id) {
+    const item = { product_id: productId, quantity: quantity, id: id };
 
-  createNewItemsList(item) {
-    const newItemsList = this.state.items.concat({
-      id: this.state.items.length + 1,
-      product: item.product,
-      quantity: item.quantity,
+    const itemResponse = await fetch("http://localhost:8082/api/items", {
+      method: "POST",
+      body: JSON.stringify(item),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     });
-    this.setState({ items: newItemsList });
+    const newItem = await itemResponse.json();
 
+    this.addProductToItem(this.state.products, newItem);
+
+    const newItemsList = this.state.items.concat(newItem);
+
+    this.setState({ items: newItemsList });
     this.calculateTotalPrice(newItemsList);
   }
 
